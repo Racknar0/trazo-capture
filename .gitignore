@@ -1,0 +1,17 @@
+
+# Ejecutables y paquetes generados localmente.
+/dist/
+/bin/
+/obj/
+/Trazo.exe
+/Trazo-portable.zip
+/tests/*.exe
+/tests/*.pdb
+/tests/*.trazo
+/tests/preview.png
+
+# Estado local del editor.
+/.vs/
+/.vscode/
+*.user
+*.suo
