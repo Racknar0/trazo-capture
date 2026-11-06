@@ -1,14 +1,14 @@
 param(
-    [string]$BinaryDirectory=(Join-Path (Split-Path -Parent $PSScriptRoot) 'dist'),
+    [string]$BinaryDirectory=(Join-Path (Split-Path -Parent (Split-Path -Parent $PSScriptRoot)) 'dist\windows\app'),
     [string]$CompilerPath=$env:INNO_SETUP_COMPILER,
     [ValidatePattern('^\d+\.\d+\.\d+$')][string]$Version='0.2.0',
     [switch]$QaBuild
 )
 
 $ErrorActionPreference='Stop'
-$project=[IO.Path]::GetFullPath((Split-Path -Parent $PSScriptRoot))
+$project=[IO.Path]::GetFullPath((Split-Path -Parent (Split-Path -Parent $PSScriptRoot)))
 $binary=[IO.Path]::GetFullPath($BinaryDirectory)
-$output=Join-Path $project 'dist'
+$output=Join-Path $project 'dist\windows'
 $null=New-Item -ItemType Directory -Path $output -Force
 
 if([string]::IsNullOrWhiteSpace($CompilerPath)){

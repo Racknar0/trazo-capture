@@ -3,7 +3,8 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net9.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+    <ApplicationIcon>..\..\packaging\windows\Trazo.ico</ApplicationIcon>
     <AssemblyName>Trazo</AssemblyName>
     <RootNamespace>Trazo</RootNamespace>
     <Nullable>disable</Nullable>
@@ -12,6 +13,7 @@
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="*.cs" />
+    <Compile Include="**\*.cs" Exclude="bin\**;obj\**" />
+    <None Update="Trazo.exe.config" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

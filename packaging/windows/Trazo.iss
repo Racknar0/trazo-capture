@@ -2,7 +2,7 @@
   #define AppVersion "0.2.0"
 #endif
 #ifndef BinaryDirectory
-  #define BinaryDirectory AddBackslash(SourcePath) + "..\dist"
+  #define BinaryDirectory AddBackslash(SourcePath) + "..\..\dist\windows\app"
 #endif
 #ifndef AppIdOverride
   #define AppIdOverride "{{D7113995-7A5F-4D2D-9C6B-82A314667E5B}"
@@ -31,7 +31,7 @@ DisableDirPage=no
 DisableProgramGroupPage=yes
 AllowNoIcons=yes
 DisableWelcomePage=no
-LicenseFile=..\LICENSE
+LicenseFile=..\..\LICENSE
 MinVersion=10.0
 WizardStyle=modern
 WizardSizePercent=110
@@ -40,7 +40,7 @@ WizardImageFile=wizard-large.bmp
 WizardSmallImageFile=wizard-small.bmp
 UninstallDisplayIcon={app}\Trazo.exe
 UninstallDisplayName=Trazo
-OutputDir=..\dist
+OutputDir=..\..\dist\windows
 OutputBaseFilename={#OutputBaseName}
 VersionInfoVersion={#AppVersion}.0
 VersionInfoProductName=Trazo
@@ -88,12 +88,12 @@ Name: "fileassoc"; Description: "{cm:AssociationTask}"; GroupDescription: "{cm:I
 [Files]
 Source: "{#BinaryDirectory}\Trazo.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BinaryDirectory}\Trazo.exe.config"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\LICENSE"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\README.md"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\CONTRIBUTING.md"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\docs\preview.png"; DestDir: "{app}\docs"; Flags: ignoreversion
-Source: "..\docs\dashboard.png"; DestDir: "{app}\docs"; Flags: ignoreversion
-Source: "..\docs\settings.png"; DestDir: "{app}\docs"; Flags: ignoreversion
+Source: "..\..\LICENSE"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\..\README.md"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\..\CONTRIBUTING.md"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\..\docs\preview.png"; DestDir: "{app}\docs"; Flags: ignoreversion
+Source: "..\..\docs\dashboard.png"; DestDir: "{app}\docs"; Flags: ignoreversion
+Source: "..\..\docs\settings.png"; DestDir: "{app}\docs"; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\Trazo"; Filename: "{app}\Trazo.exe"; WorkingDir: "{app}"; AppUserModelID: "Racknar0.Trazo"

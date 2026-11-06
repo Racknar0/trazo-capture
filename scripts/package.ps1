@@ -2,13 +2,14 @@ param(
     [ValidatePattern('^\d+\.\d+\.\d+$')]
     [string]$Version='0.2.0',
     [switch]$SkipBuild,
-    [string]$BinaryDirectory=(Join-Path $PSScriptRoot 'dist')
+    [string]$BinaryDirectory=(Join-Path (Split-Path -Parent $PSScriptRoot) 'dist\windows\app')
 )
 
 $ErrorActionPreference='Stop'
+$projectRoot=Split-Path -Parent $PSScriptRoot
 if(-not $SkipBuild){& (Join-Path $PSScriptRoot 'build.ps1') -OutputDirectory $BinaryDirectory}
 
-$release=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot 'dist'))
+$release=[IO.Path]::GetFullPath((Join-Path $projectRoot 'dist\windows'))
 $null=New-Item -ItemType Directory -Path $release -Force
 $package=Join-Path $release ('Trazo-v'+$Version+'-windows.zip')
 $temporary=Join-Path $release ('.package-'+[Guid]::NewGuid().ToString('N')+'.tmp')
@@ -16,12 +17,12 @@ $backup=Join-Path $release ('.previous-package-'+[Guid]::NewGuid().ToString('N')
 $entries=@(
     @{Source=(Join-Path $BinaryDirectory 'Trazo.exe');Name='Trazo.exe'},
     @{Source=(Join-Path $BinaryDirectory 'Trazo.exe.config');Name='Trazo.exe.config'},
-    @{Source=(Join-Path $PSScriptRoot 'README.md');Name='README.md'},
-    @{Source=(Join-Path $PSScriptRoot 'LICENSE');Name='LICENSE'},
-    @{Source=(Join-Path $PSScriptRoot 'CONTRIBUTING.md');Name='CONTRIBUTING.md'},
-    @{Source=(Join-Path $PSScriptRoot 'docs\preview.png');Name='docs/preview.png'},
-    @{Source=(Join-Path $PSScriptRoot 'docs\dashboard.png');Name='docs/dashboard.png'},
-    @{Source=(Join-Path $PSScriptRoot 'docs\settings.png');Name='docs/settings.png'}
+    @{Source=(Join-Path $projectRoot 'README.md');Name='README.md'},
+    @{Source=(Join-Path $projectRoot 'LICENSE');Name='LICENSE'},
+    @{Source=(Join-Path $projectRoot 'CONTRIBUTING.md');Name='CONTRIBUTING.md'},
+    @{Source=(Join-Path $projectRoot 'docs\preview.png');Name='docs/preview.png'},
+    @{Source=(Join-Path $projectRoot 'docs\dashboard.png');Name='docs/dashboard.png'},
+    @{Source=(Join-Path $projectRoot 'docs\settings.png');Name='docs/settings.png'}
 )
 
 foreach($entry in $entries){
