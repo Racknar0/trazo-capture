@@ -28,6 +28,9 @@ namespace Trazo
         private readonly List<GlyphButton> tools=new List<GlyphButton>();
         private TextBox input;
         private bool exporting;
+        internal event Action<Bitmap> ImageExported;
+        internal string DefaultSaveDirectory;
+        internal string DefaultImageFormat="PNG";
         internal static readonly Color Blue=Color.FromArgb(42,163,221);
 
         internal OverlayForm(Bitmap image, Rectangle virtualBounds) : this(image,virtualBounds,new CaptureWindow[0]) { }
@@ -297,10 +300,16 @@ namespace Trazo
             using(Graphics g=Graphics.FromImage(scene)){g.SetClip(selection);g.SmoothingMode=SmoothingMode.AntiAlias;foreach(Annotation a in history[historyIndex])a.Draw(g);}return scene;
         }
         internal Bitmap RenderSelection(){using(Bitmap scene=RenderScene())using(Bitmap crop=scene.Clone(selection,PixelFormat.Format32bppArgb))return ImageEffects.Apply(crop,effects);}
+        internal void NotifyImageExported(Bitmap image)
+        {
+            Action<Bitmap> handlers=ImageExported;if(handlers==null)return;
+            foreach(Action<Bitmap> handler in handlers.GetInvocationList())
+                try{handler(image);}catch(Exception error){System.Diagnostics.Debug.WriteLine("Trazo: "+error.Message);}
+        }
         private void CopyImage()
         {
             if(!ready||exporting)return;CommitText();exporting=true;
-            try{using(Bitmap image=RenderSelection())Clipboard.SetDataObject(image,true,8,80);DialogResult=DialogResult.OK;Close();}
+            try{using(Bitmap image=RenderSelection()){Clipboard.SetDataObject(image,true,8,80);NotifyImageExported(image);}DialogResult=DialogResult.OK;Close();}
             catch(Exception ex){exporting=false;MessageBox.Show(this,"No se pudo copiar la captura. Intenta otra vez.\n"+ex.Message,"Trazo",MessageBoxButtons.OK,MessageBoxIcon.Warning);}
         }
         private void SaveImage()
@@ -311,10 +320,12 @@ namespace Trazo
                 using(SaveFileDialog d=new SaveFileDialog())
                 {
                     d.Title="Guardar captura · Trazo";d.Filter="Imagen PNG|*.png|Imagen JPEG|*.jpg|Mapa de bits|*.bmp";d.DefaultExt="png";d.AddExtension=true;d.OverwritePrompt=true;
-                    d.FileName="Trazo_"+DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")+".png";
+                    string preferred=(DefaultImageFormat??"PNG").ToUpperInvariant();d.FilterIndex=preferred=="JPEG"||preferred=="JPG"?2:preferred=="BMP"?3:1;d.DefaultExt=d.FilterIndex==2?"jpg":d.FilterIndex==3?"bmp":"png";
+                    if(!String.IsNullOrWhiteSpace(DefaultSaveDirectory)){Directory.CreateDirectory(DefaultSaveDirectory);d.InitialDirectory=DefaultSaveDirectory;}
+                    d.FileName="Trazo_"+DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")+"."+d.DefaultExt;
                     if(d.ShowDialog(this)!=DialogResult.OK)return;
                     string ext=Path.GetExtension(d.FileName).ToLowerInvariant();ImageFormat format=(ext==".jpg"||ext==".jpeg")?ImageFormat.Jpeg:ext==".bmp"?ImageFormat.Bmp:ImageFormat.Png;
-                    using(Bitmap image=RenderSelection()){if(format==ImageFormat.Jpeg||format==ImageFormat.Bmp){using(Bitmap flat=new Bitmap(image.Width,image.Height)){using(Graphics g=Graphics.FromImage(flat)){g.Clear(Color.White);g.DrawImageUnscaled(image,0,0);}flat.Save(d.FileName,format);}}else image.Save(d.FileName,format);}
+                    using(Bitmap image=RenderSelection()){if(format==ImageFormat.Jpeg||format==ImageFormat.Bmp){using(Bitmap flat=new Bitmap(image.Width,image.Height)){using(Graphics g=Graphics.FromImage(flat)){g.Clear(Color.White);g.DrawImageUnscaled(image,0,0);}flat.Save(d.FileName,format);}}else image.Save(d.FileName,format);NotifyImageExported(image);}
                     DialogResult=DialogResult.OK;Close();
                 }
             }

@@ -1,6 +1,6 @@
 param(
     [ValidatePattern('^\d+\.\d+\.\d+$')]
-    [string]$Version='0.1.0',
+    [string]$Version='0.2.0',
     [switch]$SkipBuild,
     [string]$BinaryDirectory=(Join-Path $PSScriptRoot 'dist')
 )
@@ -12,13 +12,16 @@ $release=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot 'dist'))
 $null=New-Item -ItemType Directory -Path $release -Force
 $package=Join-Path $release ('Trazo-v'+$Version+'-windows.zip')
 $temporary=Join-Path $release ('.package-'+[Guid]::NewGuid().ToString('N')+'.tmp')
+$backup=Join-Path $release ('.previous-package-'+[Guid]::NewGuid().ToString('N')+'.tmp')
 $entries=@(
     @{Source=(Join-Path $BinaryDirectory 'Trazo.exe');Name='Trazo.exe'},
     @{Source=(Join-Path $BinaryDirectory 'Trazo.exe.config');Name='Trazo.exe.config'},
     @{Source=(Join-Path $PSScriptRoot 'README.md');Name='README.md'},
     @{Source=(Join-Path $PSScriptRoot 'LICENSE');Name='LICENSE'},
     @{Source=(Join-Path $PSScriptRoot 'CONTRIBUTING.md');Name='CONTRIBUTING.md'},
-    @{Source=(Join-Path $PSScriptRoot 'docs\preview.png');Name='docs/preview.png'}
+    @{Source=(Join-Path $PSScriptRoot 'docs\preview.png');Name='docs/preview.png'},
+    @{Source=(Join-Path $PSScriptRoot 'docs\dashboard.png');Name='docs/dashboard.png'},
+    @{Source=(Join-Path $PSScriptRoot 'docs\settings.png');Name='docs/settings.png'}
 )
 
 foreach($entry in $entries){
@@ -51,7 +54,7 @@ try{
     }
     $zip.Dispose();$zip=$null
     $file.Dispose();$file=$null
-    if(Test-Path -LiteralPath $package){[IO.File]::Replace($temporary,$package,$null)}
+    if(Test-Path -LiteralPath $package){[IO.File]::Replace($temporary,$package,$backup)}
     else{[IO.File]::Move($temporary,$package)}
     Write-Output ('Paquete: '+$package)
 }
@@ -59,4 +62,5 @@ finally{
     if($zip){$zip.Dispose()}
     if($file){$file.Dispose()}
     if(Test-Path -LiteralPath $temporary){Remove-Item -LiteralPath $temporary -Force}
+    if(Test-Path -LiteralPath $backup){Remove-Item -LiteralPath $backup -Force}
 }

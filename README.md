@@ -2,36 +2,51 @@
 
 **Captura, anota y comparte.**
 
-Una aplicación portátil y de código abierto para capturar áreas y ventanas en Windows, añadir anotaciones y guardar el resultado.
+Una aplicación de código abierto para capturar áreas y ventanas en Windows, editar imágenes y organizar tus capturas recientes.
 
-**[Descargar Trazo para Windows](https://github.com/Racknar0/trazo-capture/releases/download/v0.1.0/Trazo-v0.1.0-windows.zip)** · [Ver releases](https://github.com/Racknar0/trazo-capture/releases/latest)
+**[Descargar instalador para Windows](https://github.com/Racknar0/trazo-capture/releases/download/v0.2.0/Trazo-v0.2.0-setup.exe)** · [Versión portátil](https://github.com/Racknar0/trazo-capture/releases/download/v0.2.0/Trazo-v0.2.0-windows.zip) · [Ver releases](https://github.com/Racknar0/trazo-capture/releases/latest)
 
-![Editor de Trazo](docs/preview.png)
+![Ventana principal de Trazo](docs/dashboard.png)
 
-*Vista del editor con datos de ejemplo.*
+*Capturas de ejemplo en la ventana principal.*
 
 ## Qué puedes hacer
 
-- **Capturar áreas o ventanas:** selecciona con un clic o arrastra un área; incluye soporte para varios monitores y lupa de precisión.
-- **Atajos de captura configurables:** elige las teclas que mejor encajen con tu forma de trabajar.
+- **Capturar áreas o ventanas:** selecciona con un clic o arrastra un área; incluye varios monitores y lupa de precisión.
+- **Organizar tus capturas:** una ventana principal con miniaturas, vista previa y acciones para copiar, editar, guardar o eliminar.
+- **Conservar un historial:** guarda las últimas **30 capturas** por defecto. Puedes desactivarlo o ajustar el límite entre **1 y 200**.
+- **Elegir tus atajos:** añade, cambia o quita las teclas y combinaciones que inician una captura.
 - **Anotar a tu manera:** flechas, formas, pincel, texto, resaltado, pixelado y desenfoque, con colores y grosores ajustables.
-- **Corregir las marcas:** mueve, redimensiona, duplica, elimina y ordena por capas; deshaz o rehace los cambios.
-- **Combinar imágenes:** pega desde el portapapeles o añade un archivo a la captura.
+- **Corregir y combinar:** mueve, redimensiona, duplica y ordena marcas por capas; pega imágenes y deshaz o rehace cambios.
 - **Dar el acabado final:** giro, escala de grises, borde blanco y sombra, con vista previa antes de exportar.
 - **Guardar y continuar:** copia al portapapeles, exporta PNG, JPEG o BMP y conserva proyectos editables `.trazo`.
+- **Adaptar la aplicación:** configura el inicio con Windows, el comportamiento al cerrar, los atajos, el historial y la carpeta de guardado.
 
-## Empieza en un minuto
+## Instalar y empezar
 
-1. Descarga y extrae el ZIP. Abre **Trazo.exe** y conserva su archivo de configuración junto a él.
-2. Usa un atajo configurado o el botón **Capturar pantalla**. Haz clic sobre una ventana resaltada o arrastra para seleccionar un área.
-3. Usa las barras flotantes para añadir marcas. Pulsa **V** para moverlas o cambiar su tamaño; haz doble clic en un texto para corregirlo.
-4. Pulsa **Ctrl + C** para copiar o **Ctrl + S** para guardar.
+1. Descarga y ejecuta **Trazo-v0.2.0-setup.exe**. El asistente permite elegir la carpeta y los accesos directos.
+2. Abre **Trazo** desde el menú Inicio o el escritorio.
+3. Usa un atajo configurado o el botón **Capturar pantalla**. Haz clic sobre una ventana resaltada o arrastra para seleccionar un área.
+4. Añade marcas con las barras flotantes y termina con **Ctrl + C** para copiar o **Ctrl + S** para guardar.
 
-El botón **···** reúne las opciones de imágenes, capas, proyectos y efectos.
+Las capturas terminadas aparecen en la ventana principal. Las canceladas no se añaden al historial. El límite conserva las más recientes y elimina automáticamente las copias antiguas del historial; tus archivos exportados se mantienen en la carpeta que elegiste.
 
-Puedes cambiar las teclas de captura desde **Configurar atajos**, disponible en la ventana principal y en el menú de la bandeja.
+El botón **···** del editor reúne las opciones de imágenes, capas, proyectos y efectos. Pulsa **V** para mover una marca o cambiar su tamaño; haz doble clic en un texto para corregirlo.
 
-## Atajos esenciales
+## Configuración
+
+Abre **Configuración** en la ventana principal o desde el icono junto al reloj:
+
+- **General:** iniciar con Windows y elegir qué ocurre al cerrar la ventana.
+- **Capturas:** carpeta, formato de imagen y visibilidad del panel principal durante la selección.
+- **Historial:** activar el guardado y elegir cuántas capturas conservar, hasta 200.
+- **Atajos:** gestionar las teclas y combinaciones de captura.
+
+La primera vez que cierras la ventana puedes elegir **quedar en la bandeja**, **cerrar Trazo** o **cancelar**, y recordar la elección. Para salir completamente desde la bandeja, elige **Cerrar Trazo**.
+
+![Configuración del historial](docs/settings.png)
+
+## Atajos del editor
 
 | Atajo | Acción |
 | --- | --- |
@@ -42,16 +57,14 @@ Puedes cambiar las teclas de captura desde **Configurar atajos**, disponible en 
 | **Ctrl + Mayús + S** | Guardar proyecto editable |
 | **Esc** | Quitar selección o cancelar |
 
-Mientras escribes texto, **Enter** confirma la anotación y **Mayús + Enter** añade un salto de línea.
+Mientras escribes texto, **Enter** confirma la anotación y **Mayús + Enter** añade un salto de línea. Los proyectos `.trazo` conservan el fondo y las marcas; para compartir el resultado final, exporta una imagen.
 
-## Requisitos y uso diario
+## Requisitos y desinstalación
 
-- Windows con **.NET Framework 4.8**. No necesita instalador.
-- Puedes iniciar capturas desde los atajos que configures o desde el botón de la ventana principal.
-- Al cerrar la ventana, Trazo permanece junto al reloj. Para salir, haz clic derecho en su icono y elige **Cerrar Trazo**.
-- Antes de abrir una versión nueva, cierra la anterior desde la bandeja.
-
-Los proyectos `.trazo` conservan el fondo y las marcas para seguir editando. Para compartir una captura con las anotaciones aplicadas, exporta una imagen.
+- Windows con **.NET Framework 4.8**.
+- El instalador es para tu usuario y no necesita permisos de administrador.
+- También puedes usar el ZIP portátil sin instalar.
+- Puedes desinstalar Trazo desde **Configuración de Windows → Aplicaciones**. Las capturas y preferencias personales se conservan.
 
 ## Participa
 
